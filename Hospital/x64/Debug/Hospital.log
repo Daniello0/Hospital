@@ -1,0 +1,6 @@
+﻿  Hospital.cpp
+Hospital.obj : error LNK2019: ссылка на неразрешенный внешний символ "__declspec(dllimport) public: virtual void __cdecl sf::SoundStream::play(void)" (__imp_?play@SoundStream@sf@@UEAAXXZ) в функции main.
+Hospital.obj : error LNK2019: ссылка на неразрешенный внешний символ "__declspec(dllimport) public: __cdecl sf::Music::Music(void)" (__imp_??0Music@sf@@QEAA@XZ) в функции main.
+Hospital.obj : error LNK2019: ссылка на неразрешенный внешний символ "__declspec(dllimport) public: virtual __cdecl sf::Music::~Music(void)" (__imp_??1Music@sf@@UEAA@XZ) в функции main.
+Hospital.obj : error LNK2019: ссылка на неразрешенный внешний символ "__declspec(dllimport) public: bool __cdecl sf::Music::openFromFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (__imp_?openFromFile@Music@sf@@QEAA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) в функции main.
+C:\Users\danil\OneDrive\Документы\C++\Hospital\Hospital\x64\Debug\Hospital.exe : fatal error LNK1120: неразрешенных внешних элементов: 4
