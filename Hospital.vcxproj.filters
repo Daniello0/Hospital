@@ -21,8 +21,10 @@
     <ClCompile Include="Model.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="View.cpp">
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
+    </Font>
   </ItemGroup>
 </Project>
