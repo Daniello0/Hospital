@@ -12,17 +12,20 @@ struct my_Time
 struct Course {
     string course_name;
     string course_description;
+    Office procedures[100];
     void create_course();
     void delete_course();
 };
 
-struct Patient : Course
+struct Patient
 {
     string first_name;
     string last_name;
     int birth_date; //ddmmyyyy
     string diagnosis;
     string complaints;
+    Course courses[100];
+
     void create_patient();
     void delete_patient();
 };
@@ -30,6 +33,7 @@ struct Patient : Course
 struct Chamber : Patient
 {
     int chamber_size = 4;
+    int chamber_number;
 };
 
 struct Office
@@ -38,33 +42,14 @@ struct Office
     int office_number;
     my_Time office_opens_time;
     my_Time office_closes_time;
-    void create_office();
-    void delete_office();
 };
 
 struct Department : Chamber
 {
     string department_name;
-    void create_department();
-    void delete_department();
 };
 
 struct Hospital : Department, Office
 {
-    void create_hospital();
-    void delete_hospital();
-};
 
-struct Button : RectangleShape
-{
-    Font font;
-    Color main_button_color = Color(255, 105, 0);
-    Color pressed_button_color = Color(200, 82, 0);
-    void create_button()
-    {
-        this->setSize(Vector2f(175, 100));
-        this->setOutlineThickness(1);
-        this->setOutlineColor(Color::Black);
-        this->setFillColor(main_button_color);
-    }
 };
