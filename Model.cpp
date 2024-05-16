@@ -1,7 +1,7 @@
 #include "string"
-#include "SFML/Graphics.hpp"
+#include "fstream"
+
 using namespace std;
-using namespace sf;
 
 struct my_Time
 {
@@ -9,47 +9,63 @@ struct my_Time
     unsigned int minutes;
 };
 
-struct Course {
-    string course_name;
-    string course_description;
-    Office procedures[100];
-    void create_course();
-    void delete_course();
+struct Office
+{
+    string office_name;
+    int office_number = 0;
+    wxDateTime office_opens_time;
+    wxDateTime office_closes_time;
+};
+
+struct Procedure
+{
+    string procedure_name;
+    int procedure_number;
+};
+
+struct Courses {
+    int count;
+    int GetCount()
+    {
+        count = 0;
+        string line;
+        ifstream courses_from_file("courses.txt");
+        while (getline(courses_from_file, line))
+        {
+            if (line == " ")
+                count++;
+        }
+        courses_from_file.close();
+        return count;
+    }
 };
 
 struct Patient
 {
     string first_name;
     string last_name;
-    int birth_date; //ddmmyyyy
+    wxDateTime birth_date;
     string diagnosis;
     string complaints;
-    Course courses[100];
-
-    void create_patient();
-    void delete_patient();
+    Courses courses[100];
 };
 
-struct Chamber : Patient
-{
-    int chamber_size = 4;
-    int chamber_number;
-};
-
-struct Office
-{
-    string office_name;
-    int office_number;
-    my_Time office_opens_time;
-    my_Time office_closes_time;
-};
-
-struct Department : Chamber
+struct Department
 {
     string department_name;
 };
 
-struct Hospital : Department, Office
+struct Hospital : Department, Office{};
+
+struct Doctor : Courses, Department
 {
 
 };
+
+Office ECG_office;
+Office MRI_office;
+Office CT_office;
+Office FGDS_office;
+Office Surgery;
+
+Office selected_office;
