@@ -1,31 +1,36 @@
-Fuck
+Fst
 Title
-You
+No
 Description
-Exam 1
-Exam 3
+КТ
+МРТ
+ЭКГ
 
 Exams
 Procedure 2
 
 Procedures
-Kill
+Scnd
 Title
-Yourself
+Nope
 Description
-Exam 1
+Операционная
+ФГ(Д)С
 
 Exams
-Procedure 2
+Procedure 1
+Procedure 3
 
 Procedures
-Fuck
+Third
 Title
-Yourself
+No
 Description
-Exam 1
-Exam 2
-Exam 3
+КТ
+МРТ
+Операционная
+ФГ(Д)С
+ЭКГ
 
 Exams
 Procedure 1

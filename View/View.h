@@ -197,7 +197,7 @@ class Doctor_Courses_Frame : public wxFrame
 		virtual void m_gridCoursesOnGridRowSize( wxGridSizeEvent& event ) { event.Skip(); }
 		virtual void m_gridCoursesOnGridSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void m_buttonDoctorCoursesBackOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorCoursesSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_buttonDoctorCoursesSaveOnButtonClick( wxCommandEvent& event );
 
 
 	public:
@@ -215,7 +215,7 @@ class Doctor_CreatePatient_Frame : public wxFrame
 {
 	private:
 
-	protected:
+	public:
 		wxPanel* m_panel2;
 		wxStaticText* m_staticTextFname;
 		wxTextCtrl* m_textFname;
@@ -263,7 +263,7 @@ class Doctor_CreatePatient_Frame : public wxFrame
 		virtual void m_listBoxCoursesOnListBox( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_listBoxCoursesOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_buttonDoctorCreatePatientBackOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorCreatePatientSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_buttonDoctorCreatePatientSaveOnButtonClick( wxCommandEvent& event );
 
 
 	public:
