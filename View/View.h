@@ -99,7 +99,7 @@ class Doctor_Patients_Frame : public wxFrame
 {
 	private:
 
-	protected:
+	public:
 		wxPanel* m_panel2;
 		wxGrid* m_gridPatients;
 		wxButton* m_buttonDoctorPatientsBack;

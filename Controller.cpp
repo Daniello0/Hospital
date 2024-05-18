@@ -88,6 +88,47 @@ void Doctor_Frame::m_buttonDoctorPatientsOnButtonClick(wxCommandEvent &event)
 {
     auto* doctor_patients_frame = new Doctor_Patients_Frame(nullptr);
     doctor_patients_frame->SetPosition(Doctor_Frame::GetPosition());
+
+    ifstream patients_from_file("patients.txt");
+    int row = 0;
+    string line;
+    vector<string> arr;
+    while (getline(patients_from_file, line))
+    {
+        arr.push_back(line);
+        if (line == "Name")
+        {
+            doctor_patients_frame->m_gridPatients->SetCellValue(row, 0, arr[0]);
+            arr.clear();
+        }
+        if (line == "Surname")
+        {
+            doctor_patients_frame->m_gridPatients->SetCellValue(row, 1, arr[0]);
+            arr.clear();
+        }
+        if (line == "DOB")
+        {
+            doctor_patients_frame->m_gridPatients->SetCellValue(row, 2, arr[0]);
+            arr.clear();
+        }
+        if (line == "Diagnosis")
+        {
+            doctor_patients_frame->m_gridPatients->SetCellValue(row, 3, arr[0]);
+            arr.clear();
+        }
+        if (line == "Complaints")
+        {
+            doctor_patients_frame->m_gridPatients->SetCellValue(row, 4, arr[0]);
+            arr.clear();
+        }
+        if (line == "Course")
+        {
+            doctor_patients_frame->m_gridPatients->SetCellValue(row, 5, arr[0]);
+            arr.clear();
+            row++;
+        }
+    }
+
     doctor_patients_frame->Show();
     Doctor_Frame::Close();
 }
@@ -99,7 +140,7 @@ void Doctor_Frame::m_buttonDoctorCoursesOnButtonClick(wxCommandEvent &event)
     ifstream courses_from_file("courses.txt");
     int row = 0;
     string line;
-    vector<string>mas;
+    vector<string> mas;
     while (getline(courses_from_file, line))
     {
         mas.push_back(line);
@@ -198,10 +239,29 @@ void Doctor_CreatePatient_Frame::m_buttonDoctorCreatePatientSaveOnButtonClick(wx
     if (!m_textFname->IsEmpty() and !m_textLname->IsEmpty() and !m_textCtrlDiagnosis->IsEmpty()
     and !m_textCtrlComplaints->IsEmpty() and !m_listBoxCourses->GetStringSelection().IsEmpty())
     {
-        ofstream patients_to_file("patients.txt");
-        
-
-
+        ofstream patients_to_file("patients.txt", ios::app);
+        patients_to_file << m_textFname->GetValue() << endl;
+        patients_to_file << "Name" << endl;
+        patients_to_file << m_textLname->GetValue() << endl;
+        patients_to_file << "Surname" << endl;
+        wxDateTime birthday;
+        birthday.SetDay(m_spinCtrlDay->GetValue());
+        birthday.SetMonth(static_cast<wxDateTime::Month>(m_spinCtrlMonth->GetValue()));
+        birthday.SetYear(m_spinCtrlYear->GetValue());
+        patients_to_file << birthday.Format("%d.%m.%Y") << endl;
+        patients_to_file << "DOB" << endl;
+        patients_to_file << m_textCtrlDiagnosis->GetValue() << endl;
+        patients_to_file << "Diagnosis" << endl;
+        patients_to_file << m_textCtrlComplaints->GetValue() << endl;
+        patients_to_file << "Complaints" << endl;
+        for (int i=0; i<m_listBoxCourses->GetCount(); i++)
+        {
+            if (m_listBoxCourses->IsSelected(i))
+            {
+                patients_to_file << m_listBoxCourses->GetString(i) << endl;
+                patients_to_file << "Course" << endl;
+            }
+        }
         patients_to_file.close();
         m_buttonDoctorCreatePatientBackOnButtonClick(event);
     }
@@ -244,10 +304,7 @@ void Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick(wxCo
         }
         course_to_file << endl << "Procedures" << endl;
         course_to_file.close();
-        auto* doctor_frame = new Doctor_Frame(nullptr);
-        doctor_frame->SetPosition(Doctor_CreateCourse_Frame::GetPosition());
-        doctor_frame->Show();
-        Doctor_CreateCourse_Frame::Close();
+        m_buttonCreateCourseBackOnButtonClick(event);
     }
 }
 //Other buttons

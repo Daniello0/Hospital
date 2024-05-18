@@ -173,13 +173,22 @@ Doctor_Patients_Frame::Doctor_Patients_Frame( wxWindow* parent, wxWindowID id, c
 	m_gridPatients->EnableGridLines( true );
 	m_gridPatients->EnableDragGridSize( true );
 	m_gridPatients->SetMargins( 0, 0 );
+    m_gridPatients->CreateGrid(5, 6);
 
 	// Columns
+    m_gridPatients->SetDefaultColSize(135);
+    m_gridPatients->SetColLabelValue(0, "Имя");
+    m_gridPatients->SetColLabelValue(1, "Фамилия");
+    m_gridPatients->SetColLabelValue(2, "Дата рождения");
+    m_gridPatients->SetColLabelValue(3, "Диагнозы");
+    m_gridPatients->SetColLabelValue(4, "Жалобы");
+    m_gridPatients->SetColLabelValue(5, "Курс лечения");
 	m_gridPatients->EnableDragColMove( false );
 	m_gridPatients->EnableDragColSize( true );
 	m_gridPatients->SetColLabelAlignment( wxALIGN_CENTER, wxALIGN_CENTER );
 
 	// Rows
+    m_gridPatients->SetDefaultRowSize(25);
 	m_gridPatients->EnableDragRowSize( true );
 	m_gridPatients->SetRowLabelAlignment( wxALIGN_CENTER, wxALIGN_CENTER );
 
