@@ -16,7 +16,7 @@ Smith
 Surname
 08.04.1956
 DOB
--
+Infarct
 Diagnosis
 Toothache
 Complaints

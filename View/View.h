@@ -139,7 +139,7 @@ class Doctor_Patients_Frame : public wxFrame
 		virtual void m_gridPatientsOnGridRowSize( wxGridSizeEvent& event ) { event.Skip(); }
 		virtual void m_gridPatientsOnGridSelectCell( wxGridEvent& event ) { event.Skip(); }
 		virtual void m_buttonDoctorPatientsBackOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorPatientsSaveOnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_buttonDoctorPatientsSaveOnButtonClick( wxCommandEvent& event );
 
 
 	public:

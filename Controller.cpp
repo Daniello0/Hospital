@@ -77,6 +77,27 @@ void Main_Frame::m_buttonWorkerOnButtonClick(wxCommandEvent &event)
     Main_Frame::Close();
 }
 //Doctor Frame Buttons
+void Doctor_Patients_Frame::m_buttonDoctorPatientsSaveOnButtonClick(wxCommandEvent &event)
+{
+    ofstream patients_to_file("patients.txt");
+    int row = 0;
+    for (int col=0; col<m_gridPatients->GetNumberCols(); col++)
+    {
+        if (m_gridPatients->GetCellValue(row, 0).IsEmpty())
+        {
+            break;
+        }
+        patients_to_file << m_gridPatients->GetCellValue(row, 0) << endl << "Name" << endl;
+        patients_to_file << m_gridPatients->GetCellValue(row, 1) << endl << "Surname" << endl;
+        patients_to_file << m_gridPatients->GetCellValue(row, 2) << endl << "DOB" << endl;
+        patients_to_file << m_gridPatients->GetCellValue(row, 3) << endl << "Diagnosis" << endl;
+        patients_to_file << m_gridPatients->GetCellValue(row, 4) << endl << "Complaints" << endl;
+        patients_to_file << m_gridPatients->GetCellValue(row, 5) << endl << "Course" << endl;
+        row++;
+    }
+    patients_to_file.close();
+    m_buttonDoctorPatientsBackOnButtonClick(event);
+}
 void Doctor_Frame::m_buttonDoctorBackOnButtonClick(wxCommandEvent &event)
 {
     auto* main_frame = new Main_Frame(nullptr);
@@ -212,7 +233,7 @@ void Doctor_Courses_Frame::m_buttonDoctorCoursesSaveOnButtonClick(wxCommandEvent
 {
     ofstream courses_to_file("courses.txt");
     int row = 0;
-    for (int col=0; col<m_gridCourses->GetNumberRows(); col++)
+    for (int col=0; col<m_gridCourses->GetNumberCols(); col++)
     {
         if (m_gridCourses->GetCellValue(row, 0).IsEmpty())
         {
