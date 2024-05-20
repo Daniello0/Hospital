@@ -1,6 +1,6 @@
-All
+FullTest
 Title
-All in all
+Test's all files
 Description
 КТ
 МРТ
@@ -14,3 +14,5 @@ Exams
 Электрофорез
 
 Procedures
+5
+Days

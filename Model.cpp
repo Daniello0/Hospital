@@ -3,18 +3,13 @@
 
 using namespace std;
 
-struct my_Time
-{
-    unsigned int hours;
-    unsigned int minutes;
-};
-
 struct Office
 {
     string office_name;
     int office_number = 0;
     wxDateTime office_opens_time;
     wxDateTime office_closes_time;
+    std::vector<wxDateTime> appointments;
 };
 
 struct Procedure

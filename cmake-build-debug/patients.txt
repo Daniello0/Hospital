@@ -1,15 +1,3 @@
-Richard
-Name
-Little
-Surname
-16.08.1998
-DOB
--
-Diagnosis
-Headache
-Complaints
-
-Course
 Bon
 Name
 Jovi
@@ -18,7 +6,7 @@ Surname
 DOB
 Anemium
 Diagnosis
-Leg pain, kdjfiouf, dfhsdf, djfhsdf
+Головная боль
 Complaints
-Secs
+FullTest
 Course

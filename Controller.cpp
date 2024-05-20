@@ -194,6 +194,11 @@ void Doctor_Frame::m_buttonDoctorCursesOnButtonClick(wxCommandEvent &event)
                                            return acc.empty() ? s : acc + "\n" + s; });
             doctor_courses_frame->m_gridCourses->SetCellValue(row, 3, result);
             mas.clear();
+        }
+        if (line == "Days")
+        {
+            doctor_courses_frame->m_gridCourses->SetCellValue(row, 4, mas[0]);
+            mas.clear();
             row++;
         }
     }
@@ -262,6 +267,7 @@ void Doctor_Courses_Frame::m_buttonDoctorCoursesSaveOnButtonClick(wxCommandEvent
         courses_to_file << m_gridCourses->GetCellValue(row, 1) << endl << "Description" << endl;
         courses_to_file << m_gridCourses->GetCellValue(row, 2) << endl << endl << "Exams" << endl;
         courses_to_file << m_gridCourses->GetCellValue(row, 3) << endl << endl << "Procedures" << endl;
+        courses_to_file << m_gridCourses->GetCellValue(row, 4) << endl << "Days" << endl;
         row++;
     }
     courses_to_file.close();
@@ -274,11 +280,16 @@ void Doctor_CreatePatient_Frame::m_buttonDoctorCreatePatientBackOnButtonClick(wx
     doctor_frame->Show();
     Doctor_CreatePatient_Frame::Close();
 }
+bool ParseDateTime(const std::string& str, wxDateTime& dateTime) {
+    // Пример формата: "23.05.2024 09:30"
+    return dateTime.ParseFormat(str, "%d.%m.%Y %H:%M");
+}
 void Doctor_CreatePatient_Frame::m_buttonDoctorCreatePatientSaveOnButtonClick(wxCommandEvent &event)
 {
     if (!m_textFname->IsEmpty() and !m_textLname->IsEmpty() and !m_textCtrlDiagnosis->IsEmpty()
     and !m_textCtrlComplaints->IsEmpty() and !m_listBoxCourses->GetStringSelection().IsEmpty())
     {
+        string selected;
         ofstream patients_to_file("patients.txt", ios::app);
         patients_to_file << m_textFname->GetValue() << endl;
         patients_to_file << "Name" << endl;
@@ -298,11 +309,207 @@ void Doctor_CreatePatient_Frame::m_buttonDoctorCreatePatientSaveOnButtonClick(wx
         {
             if (m_listBoxCourses->IsSelected(i))
             {
+                selected = m_listBoxCourses->GetString(i);
                 patients_to_file << m_listBoxCourses->GetString(i) << endl;
                 patients_to_file << "Course" << endl;
             }
         }
         patients_to_file.close();
+        //Write to worker-nurse schedule
+        string line;
+        wxString patient_name = m_textFname->GetValue();
+        vector<string> patient_exams;
+        ifstream course_from_file("courses.txt");
+        bool is_selected = false;
+        bool start_adding = false;
+        while (getline(course_from_file, line))
+        {
+            if (line == selected)
+            {
+                is_selected = true;
+                continue;
+            }
+            if (is_selected and line == "")
+            {
+                is_selected = false;
+                continue;
+            }
+            if (is_selected and start_adding)
+            {
+                patient_exams.push_back(line);
+            }
+            if (is_selected and line == "Description")
+            {
+                start_adding = true;
+                continue;
+            }
+        }
+        //To-From-File Exams' dates
+        for (const string& exam : patient_exams)
+        {
+            //ECG
+            if (exam == "ЭКГ")
+            {
+                //Prepare
+                wxDateTime last_time = wxDateTime::Today();
+                wxTimeSpan duration = wxTimeSpan::Minutes(15);
+                last_time.SetDay((wxDateTime::Today().Add(wxDateSpan::Day())).GetDay());
+                last_time.SetHour(ECG_office.office_opens_time.GetHour());
+                last_time.SetMinute(ECG_office.office_opens_time.GetMinute());
+                ifstream from_ecg("ECG.txt");
+                string line;
+                //Get last date
+                while (getline(from_ecg, line))
+                {
+                    wxDateTime temp_time;
+                    if (ParseDateTime(line, temp_time)) {
+                        last_time = temp_time;
+                    }
+                }
+                last_time.Add(duration);
+                //If more
+                if (last_time.GetHour() >= ECG_office.office_closes_time.GetHour()
+                and last_time.GetHour() >= ECG_office.office_closes_time.GetHour())
+                {
+                    last_time.Add(wxDateSpan::Day());
+                    last_time.SetHour(ECG_office.office_opens_time.GetHour());
+                    last_time.SetMinute(ECG_office.office_opens_time.GetMinute());
+                }
+                //To file
+                ofstream to_ecg("ECG.txt", ios::app);
+                to_ecg << patient_name << endl;
+                to_ecg << last_time.Format("%d.%m.%Y %H:%M") << endl;
+            }
+            if (exam == "МРТ")
+            {
+                //Prepare
+                wxDateTime last_time = wxDateTime::Today();
+                wxTimeSpan duration = wxTimeSpan::Minutes(15);
+                last_time.SetDay((wxDateTime::Today().Add(wxDateSpan::Day())).GetDay());
+                last_time.SetHour(MRI_office.office_opens_time.GetHour());
+                last_time.SetMinute(MRI_office.office_opens_time.GetMinute());
+                ifstream from_mri("MRI.txt");
+                string line;
+                //Get last date
+                while (getline(from_mri, line))
+                {
+                    wxDateTime temp_time;
+                    if (ParseDateTime(line, temp_time)) {
+                        last_time = temp_time;
+                    }
+                }
+                last_time.Add(duration);
+                //If more
+                if (last_time.GetHour() >= MRI_office.office_closes_time.GetHour()
+                    and last_time.GetHour() >= MRI_office.office_closes_time.GetHour())
+                {
+                    last_time.Add(wxDateSpan::Day());
+                    last_time.SetHour(MRI_office.office_opens_time.GetHour());
+                    last_time.SetMinute(MRI_office.office_opens_time.GetMinute());
+                }
+                //To file
+                ofstream to_mri("MRI.txt", ios::app);
+                to_mri << patient_name << endl;
+                to_mri << last_time.Format("%d.%m.%Y %H:%M") << endl;
+            }
+            if (exam == "КТ")
+            {
+                //Prepare
+                wxDateTime last_time = wxDateTime::Today();
+                wxTimeSpan duration = wxTimeSpan::Minutes(15);
+                last_time.SetDay((wxDateTime::Today().Add(wxDateSpan::Day())).GetDay());
+                last_time.SetHour(CT_office.office_opens_time.GetHour());
+                last_time.SetMinute(CT_office.office_opens_time.GetMinute());
+                ifstream from_ct("CT.txt");
+                string line;
+                //Get last date
+                while (getline(from_ct, line))
+                {
+                    wxDateTime temp_time;
+                    if (ParseDateTime(line, temp_time)) {
+                        last_time = temp_time;
+                    }
+                }
+                last_time.Add(duration);
+                //If more
+                if (last_time.GetHour() >= CT_office.office_closes_time.GetHour()
+                    and last_time.GetHour() >= CT_office.office_closes_time.GetHour())
+                {
+                    last_time.Add(wxDateSpan::Day());
+                    last_time.SetHour(CT_office.office_opens_time.GetHour());
+                    last_time.SetMinute(CT_office.office_opens_time.GetMinute());
+                }
+                //To file
+                ofstream to_ct("CT.txt", ios::app);
+                to_ct << patient_name << endl;
+                to_ct << last_time.Format("%d.%m.%Y %H:%M") << endl;
+            }
+            if (exam == "ФГ(Д)С")
+            {
+                //Prepare
+                wxDateTime last_time = wxDateTime::Today();
+                wxTimeSpan duration = wxTimeSpan::Minutes(15);
+                last_time.SetDay((wxDateTime::Today().Add(wxDateSpan::Day())).GetDay());
+                last_time.SetHour(FGDS_office.office_opens_time.GetHour());
+                last_time.SetMinute(FGDS_office.office_opens_time.GetMinute());
+                ifstream from_fgds("FG(D)S.txt");
+                string line;
+                //Get last date
+                while (getline(from_fgds, line))
+                {
+                    wxDateTime temp_time;
+                    if (ParseDateTime(line, temp_time)) {
+                        last_time = temp_time;
+                    }
+                }
+                last_time.Add(duration);
+                //If more
+                if (last_time.GetHour() >= FGDS_office.office_closes_time.GetHour()
+                    and last_time.GetHour() >= FGDS_office.office_closes_time.GetHour())
+                {
+                    last_time.Add(wxDateSpan::Day());
+                    last_time.SetHour(FGDS_office.office_opens_time.GetHour());
+                    last_time.SetMinute(FGDS_office.office_opens_time.GetMinute());
+                }
+                //To file
+                ofstream to_fgds("FG(D)S.txt", ios::app);
+                to_fgds << patient_name << endl;
+                to_fgds << last_time.Format("%d.%m.%Y %H:%M") << endl;
+            }
+            if (exam == "Хирургическая")
+            {
+                //Prepare
+                wxDateTime last_time = wxDateTime::Today();
+                wxTimeSpan duration = wxTimeSpan::Minutes(15);
+                last_time.SetDay((wxDateTime::Today().Add(wxDateSpan::Day())).GetDay());
+                last_time.SetHour(Surgery.office_opens_time.GetHour());
+                last_time.SetMinute(Surgery.office_opens_time.GetMinute());
+                ifstream from_surgery("Surgery.txt");
+                string line;
+                //Get last date
+                while (getline(from_surgery, line))
+                {
+                    wxDateTime temp_time;
+                    if (ParseDateTime(line, temp_time)) {
+                        last_time = temp_time;
+                    }
+                }
+                last_time.Add(duration);
+                //If more
+                if (last_time.GetHour() >= Surgery.office_closes_time.GetHour()
+                    and last_time.GetHour() >= Surgery.office_closes_time.GetHour())
+                {
+                    last_time.Add(wxDateSpan::Day());
+                    last_time.SetHour(Surgery.office_opens_time.GetHour());
+                    last_time.SetMinute(Surgery.office_opens_time.GetMinute());
+                }
+                //To file
+                ofstream to_surgery("Surgery.txt", ios::app);
+                to_surgery << patient_name << endl;
+                to_surgery << last_time.Format("%d.%m.%Y %H:%M") << endl;
+            }
+        }
+
         m_buttonDoctorCreatePatientBackOnButtonClick(event);
     }
 }
@@ -343,6 +550,8 @@ void Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick(wxCo
             }
         }
         course_to_file << endl << "Procedures" << endl;
+        course_to_file << m_spinCtrlProcedureCount->GetValue() << endl;
+        course_to_file << "Days" << endl;
         course_to_file.close();
         m_buttonCreateCourseBackOnButtonClick(event);
     }
@@ -436,7 +645,7 @@ void DeleteCourse_Frame::m_buttonDeleteCourseDeleteOnButtonClick(wxCommandEvent 
             last_line_procedures = false;
             continue;
         }
-        if (line == "Procedures")
+        if (line == "Days")
         {
             if (start_deleting)
             {

@@ -338,11 +338,12 @@ Doctor_Courses_Frame::Doctor_Courses_Frame( wxWindow* parent, wxWindowID id, con
 	m_gridCourses = new wxGrid( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 900,500 ), 0 );
 
 	// Grid
-    m_gridCourses->CreateGrid(5, 4);
-    m_gridCourses->SetDefaultColSize(190);
+    m_gridCourses->CreateGrid(5, 5);
+    m_gridCourses->SetDefaultColSize(150);
     wxFont font(30, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     m_gridCourses->SetFont(font);
     m_gridCourses->SetDefaultRowSize(100);
+    m_gridCourses->SetColSize(4, 180);
 	m_gridCourses->EnableEditing( true );
 	m_gridCourses->EnableGridLines( true );
 	m_gridCourses->EnableDragGridSize( true );
@@ -353,6 +354,7 @@ Doctor_Courses_Frame::Doctor_Courses_Frame( wxWindow* parent, wxWindowID id, con
     m_gridCourses->SetColLabelValue(1, "Описание");
     m_gridCourses->SetColLabelValue(2, "Обследования");
     m_gridCourses->SetColLabelValue(3, "Процедуры");
+    m_gridCourses->SetColLabelValue(4, "Длительность процедур (дни)");
 	m_gridCourses->EnableDragColMove( false );
 	m_gridCourses->EnableDragColSize( true );
 	m_gridCourses->SetColLabelAlignment( wxALIGN_CENTER, wxALIGN_CENTER );
@@ -742,11 +744,10 @@ Doctor_CreateCourse_Frame::Doctor_CreateCourse_Frame( wxWindow* parent, wxWindow
     m_staticTextProcedures->Wrap( -1 );
     bSizerProcedures->Add( m_staticTextProcedures, 0, wxALL, 5 );
 
-    wxString m_checkListProceduresChoices[] = { wxT("Электрофорез"), wxT("Массаж"), wxT("Общий анализ крови") };
+    wxString m_checkListProceduresChoices[] = { wxT("Электрофорез"), wxT("Массаж"), wxT("Иглоукалывание"), wxT("ЛФК"), wxT("Ароматерапия") };
     int m_checkListProceduresNChoices = sizeof( m_checkListProceduresChoices ) / sizeof( wxString );
     m_checkListProcedures = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListProceduresNChoices, m_checkListProceduresChoices, wxLB_SORT );
     bSizerProcedures->Add( m_checkListProcedures, 0, wxALL, 5 );
-
 
     bSizerPanel->Add( bSizerProcedures, 0, wxALL, 0 );
 
