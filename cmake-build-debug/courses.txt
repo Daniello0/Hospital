@@ -1,0 +1,16 @@
+All
+Title
+All in all
+Description
+КТ
+МРТ
+ФГ(Д)С
+Хирургическая
+ЭКГ
+
+Exams
+Массаж
+Общий анализ крови
+Электрофорез
+
+Procedures

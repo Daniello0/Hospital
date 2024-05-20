@@ -282,48 +282,52 @@ class Doctor_CreatePatient_Frame : public wxFrame
 ///////////////////////////////////////////////////////////////////////////////
 class Doctor_CreateCourse_Frame : public wxFrame
 {
-	private:
+private:
 
-	protected:
-		wxPanel* m_panel2;
-		wxStaticText* m_staticTextCourseTitle;
-		wxTextCtrl* m_textCtrlCourseTitle;
-		wxStaticText* m_staticTextCourseDescription;
-		wxTextCtrl* m_textCtrlCourseDescription;
-		wxStaticText* m_staticTextExams;
-		wxCheckListBox* m_checkListExams;
-		wxStaticText* m_staticTextProcedures;
-		wxCheckListBox* m_checkListProcedures;
-		wxButton* m_buttonCreateCourseBack;
-		wxButton* m_buttonDoctorCreateCourseSave;
+public:
+    wxPanel* m_panel2;
+    wxStaticText* m_staticTextCourseTitle;
+    wxTextCtrl* m_textCtrlCourseTitle;
+    wxStaticText* m_staticTextCourseDescription;
+    wxTextCtrl* m_textCtrlCourseDescription;
+    wxStaticText* m_staticTextExams;
+    wxCheckListBox* m_checkListExams;
+    wxStaticText* m_staticTextProcedures;
+    wxCheckListBox* m_checkListProcedures;
+    wxStaticText* m_staticTextCourseProcedureCount;
+    wxSpinCtrl* m_spinCtrlProcedureCount;
+    wxButton* m_buttonCreateCourseBack;
+    wxButton* m_buttonDoctorCreateCourseSave;
 
-		// Virtual event handlers, override them in your derived class
-		virtual void m_textCtrlCourseTitleOnText( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseTitleOnTextEnter( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseTitleOnTextMaxLen( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseTitleOnTextURL( wxTextUrlEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseDescriptionOnText( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseDescriptionOnTextEnter( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseDescriptionOnTextMaxLen( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrlCourseDescriptionOnTextURL( wxTextUrlEvent& event ) { event.Skip(); }
-		virtual void m_checkListExamsOnCheckListBox( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_checkListExamsOnCheckListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_checkListExamsOnCheckListBoxToggled( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_checkListProceduresOnCheckListBox( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_checkListProceduresOnCheckListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_checkListProceduresOnCheckListBoxToggled( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_buttonCreateCourseBackOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorCreateCourseSaveOnButtonClick( wxCommandEvent& event );
+    // Virtual event handlers, override them in your derived class
+    virtual void m_textCtrlCourseTitleOnText( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseTitleOnTextEnter( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseTitleOnTextMaxLen( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseTitleOnTextURL( wxTextUrlEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseDescriptionOnText( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseDescriptionOnTextEnter( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseDescriptionOnTextMaxLen( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_textCtrlCourseDescriptionOnTextURL( wxTextUrlEvent& event ) { event.Skip(); }
+    virtual void m_checkListExamsOnCheckListBox( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_checkListExamsOnCheckListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_checkListExamsOnCheckListBoxToggled( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_checkListProceduresOnCheckListBox( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_checkListProceduresOnCheckListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_checkListProceduresOnCheckListBoxToggled( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_spinCtrlProcedureCountOnSpinCtrl( wxSpinEvent& event ) { event.Skip(); }
+    virtual void m_spinCtrlProcedureCountOnSpinCtrlText( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_spinCtrlProcedureCountOnTextEnter( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_buttonCreateCourseBackOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDoctorCreateCourseSaveOnButtonClick( wxCommandEvent& event );
 
 
-	public:
+public:
 
-		Doctor_CreateCourse_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Создать курс лечения"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+    Doctor_CreateCourse_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Создать курс лечения"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-		~Doctor_CreateCourse_Frame();
+    ~Doctor_CreateCourse_Frame();
 
 };
-
 ///////////////////////////////////////////////////////////////////////////////
 /// Class ChooseDep_Frame
 ///////////////////////////////////////////////////////////////////////////////

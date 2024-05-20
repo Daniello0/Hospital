@@ -205,6 +205,25 @@ void Doctor_Frame::m_buttonDoctorCreatePatientOnButtonClick(wxCommandEvent &even
 {
     auto* doctor_create_patient_frame = new Doctor_CreatePatient_Frame(nullptr);
     doctor_create_patient_frame->SetPosition(Doctor_Frame::GetPosition());
+
+    ifstream courses_from_file("courses.txt");
+    vector<string> lines;
+    vector<string> titles;
+    string line;
+    while (getline(courses_from_file, line))
+    {
+        lines.push_back(line);
+        if (line == "Title")
+        {
+            titles.push_back(*(lines.end()-2));
+            lines.clear();
+        }
+    }
+    for (const string &title : titles)
+    {
+        doctor_create_patient_frame->m_listBoxCourses->Append(title);
+    }
+
     doctor_create_patient_frame->Show();
     Doctor_Frame::Close();
 }

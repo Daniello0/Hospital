@@ -583,9 +583,6 @@ Doctor_CreatePatient_Frame::Doctor_CreatePatient_Frame( wxWindow* parent, wxWind
 	bSizerCourses->Add( m_staticTextCourses, 0, wxALL, 5 );
 
 	m_listBoxCourses = new wxListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), 0, NULL, 0 );
-	m_listBoxCourses->Append( wxT("Course 1") );
-	m_listBoxCourses->Append( wxT("Course 2") );
-	m_listBoxCourses->Append( wxT("Course 3") );
 	bSizerCourses->Add( m_listBoxCourses, 0, wxALL, 5 );
 
 
@@ -683,137 +680,158 @@ Doctor_CreatePatient_Frame::~Doctor_CreatePatient_Frame()
 
 Doctor_CreateCourse_Frame::Doctor_CreateCourse_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetBackgroundColour( wxColour( 49, 79, 120 ) );
+    this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+    this->SetBackgroundColour( wxColour( 49, 79, 120 ) );
 
-	wxBoxSizer* bSizerMainPanel;
-	bSizerMainPanel = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerMainPanel;
+    bSizerMainPanel = new wxBoxSizer( wxHORIZONTAL );
 
-	m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 900,600 ), wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizerPanel;
-	bSizerPanel = new wxBoxSizer( wxVERTICAL );
+    m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 900,600 ), wxTAB_TRAVERSAL );
+    wxBoxSizer* bSizerPanel;
+    bSizerPanel = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizerCourseTitle;
-	bSizerCourseTitle = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerCourseTitle;
+    bSizerCourseTitle = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextCourseTitle = new wxStaticText( m_panel2, wxID_ANY, wxT("Название курса лечения"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextCourseTitle->Wrap( -1 );
-	m_staticTextCourseTitle->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
+    m_staticTextCourseTitle = new wxStaticText( m_panel2, wxID_ANY, wxT("Название курса лечения"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextCourseTitle->Wrap( -1 );
+    m_staticTextCourseTitle->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
 
-	bSizerCourseTitle->Add( m_staticTextCourseTitle, 0, wxALL, 5 );
+    bSizerCourseTitle->Add( m_staticTextCourseTitle, 0, wxALL, 5 );
 
-	m_textCtrlCourseTitle = new wxTextCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 750,-1 ), 0 );
-	bSizerCourseTitle->Add( m_textCtrlCourseTitle, 0, wxALL, 5 );
-
-
-	bSizerPanel->Add( bSizerCourseTitle, 0, wxALL, 0 );
-
-	wxBoxSizer* bSizerCourseDescription;
-	bSizerCourseDescription = new wxBoxSizer( wxHORIZONTAL );
-
-	m_staticTextCourseDescription = new wxStaticText( m_panel2, wxID_ANY, wxT("Описание курса лечения"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextCourseDescription->Wrap( -1 );
-	m_staticTextCourseDescription->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
-
-	bSizerCourseDescription->Add( m_staticTextCourseDescription, 0, wxALL, 5 );
-
-	m_textCtrlCourseDescription = new wxTextCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 750,-1 ), 0 );
-	bSizerCourseDescription->Add( m_textCtrlCourseDescription, 0, wxALL, 5 );
+    m_textCtrlCourseTitle = new wxTextCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 750,-1 ), 0 );
+    bSizerCourseTitle->Add( m_textCtrlCourseTitle, 0, wxALL, 5 );
 
 
-	bSizerPanel->Add( bSizerCourseDescription, 0, wxALL, 0 );
+    bSizerPanel->Add( bSizerCourseTitle, 0, wxALL, 0 );
 
-	wxBoxSizer* bSizerExams;
-	bSizerExams = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerCourseDescription;
+    bSizerCourseDescription = new wxBoxSizer( wxHORIZONTAL );
 
-	m_staticTextExams = new wxStaticText( m_panel2, wxID_ANY, wxT("Обследования"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextExams->Wrap( -1 );
-	bSizerExams->Add( m_staticTextExams, 0, wxALL, 5 );
+    m_staticTextCourseDescription = new wxStaticText( m_panel2, wxID_ANY, wxT("Описание курса лечения"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextCourseDescription->Wrap( -1 );
+    m_staticTextCourseDescription->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
 
-	wxString m_checkListExamsChoices[] = { wxT("ЭКГ"), wxT("МРТ"), wxT("ФГ(Д)С"), ("КТ"), ("Операционная") };
-	int m_checkListExamsNChoices = sizeof( m_checkListExamsChoices ) / sizeof( wxString );
-	m_checkListExams = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListExamsNChoices, m_checkListExamsChoices, wxLB_SORT );
-	bSizerExams->Add( m_checkListExams, 1, wxEXPAND | wxALL, 5 );
+    bSizerCourseDescription->Add( m_staticTextCourseDescription, 0, wxALL, 5 );
 
-
-	bSizerPanel->Add( bSizerExams, 0, wxALL, 0 );
-
-	wxBoxSizer* bSizerProcedures;
-	bSizerProcedures = new wxBoxSizer( wxHORIZONTAL );
-
-	m_staticTextProcedures = new wxStaticText( m_panel2, wxID_ANY, wxT("Процедуры"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticTextProcedures->Wrap( -1 );
-	bSizerProcedures->Add( m_staticTextProcedures, 0, wxALL, 5 );
-
-	wxString m_checkListProceduresChoices[] = { wxT("Электрофорез"), wxT("Массаж"), wxT("Общий анализ крови") };
-	int m_checkListProceduresNChoices = sizeof( m_checkListProceduresChoices ) / sizeof( wxString );
-	m_checkListProcedures = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListProceduresNChoices, m_checkListProceduresChoices, wxLB_SORT );
-	bSizerProcedures->Add( m_checkListProcedures, 0, wxALL, 5 );
+    m_textCtrlCourseDescription = new wxTextCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 750,-1 ), 0 );
+    bSizerCourseDescription->Add( m_textCtrlCourseDescription, 0, wxALL, 5 );
 
 
-	bSizerPanel->Add( bSizerProcedures, 0, wxALL, 0 );
+    bSizerPanel->Add( bSizerCourseDescription, 0, wxALL, 0 );
 
-	wxBoxSizer* bSizerButtons;
-	bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerExams;
+    bSizerExams = new wxBoxSizer( wxHORIZONTAL );
 
-	m_buttonCreateCourseBack = new wxButton( m_panel2, wxID_ANY, wxT("Назад"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerButtons->Add( m_buttonCreateCourseBack, 0, wxALL, 5 );
+    m_staticTextExams = new wxStaticText( m_panel2, wxID_ANY, wxT("Обследования"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextExams->Wrap( -1 );
+    bSizerExams->Add( m_staticTextExams, 0, wxALL, 5 );
 
-	m_buttonDoctorCreateCourseSave = new wxButton( m_panel2, wxID_ANY, wxT("Сохранить"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerButtons->Add( m_buttonDoctorCreateCourseSave, 0, wxALL, 5 );
-
-
-	bSizerPanel->Add( bSizerButtons, 0, wxALL, 0 );
-
-
-	m_panel2->SetSizer( bSizerPanel );
-	m_panel2->Layout();
-	bSizerMainPanel->Add( m_panel2, 1, wxEXPAND|wxALL, 0 );
+    wxString m_checkListExamsChoices[] = { wxT("ЭКГ"), wxT("МРТ"), wxT("КТ"), wxT("ФГ(Д)С"), wxT("Хирургическая") };
+    int m_checkListExamsNChoices = sizeof( m_checkListExamsChoices ) / sizeof( wxString );
+    m_checkListExams = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListExamsNChoices, m_checkListExamsChoices, wxLB_SORT );
+    bSizerExams->Add( m_checkListExams, 0, wxALL, 5 );
 
 
-	this->SetSizer( bSizerMainPanel );
-	this->Layout();
+    bSizerPanel->Add( bSizerExams, 0, wxALL, 0 );
 
-	this->Centre( wxBOTH );
+    wxBoxSizer* bSizerProcedures;
+    bSizerProcedures = new wxBoxSizer( wxHORIZONTAL );
 
-	// Connect Events
-	m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnText ), NULL, this );
-	m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextEnter ), NULL, this );
-	m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextMaxLen ), NULL, this );
-	m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextURL ), NULL, this );
-	m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnText ), NULL, this );
-	m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextEnter ), NULL, this );
-	m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextMaxLen ), NULL, this );
-	m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextURL ), NULL, this );
-	m_checkListExams->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBox ), NULL, this );
-	m_checkListExams->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxDClick ), NULL, this );
-	m_checkListExams->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxToggled ), NULL, this );
-	m_checkListProcedures->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBox ), NULL, this );
-	m_checkListProcedures->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxDClick ), NULL, this );
-	m_checkListProcedures->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxToggled ), NULL, this );
-	m_buttonCreateCourseBack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonCreateCourseBackOnButtonClick ), NULL, this );
-	m_buttonDoctorCreateCourseSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick ), NULL, this );
+    m_staticTextProcedures = new wxStaticText( m_panel2, wxID_ANY, wxT("Процедуры"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextProcedures->Wrap( -1 );
+    bSizerProcedures->Add( m_staticTextProcedures, 0, wxALL, 5 );
+
+    wxString m_checkListProceduresChoices[] = { wxT("Электрофорез"), wxT("Массаж"), wxT("Общий анализ крови") };
+    int m_checkListProceduresNChoices = sizeof( m_checkListProceduresChoices ) / sizeof( wxString );
+    m_checkListProcedures = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListProceduresNChoices, m_checkListProceduresChoices, wxLB_SORT );
+    bSizerProcedures->Add( m_checkListProcedures, 0, wxALL, 5 );
+
+
+    bSizerPanel->Add( bSizerProcedures, 0, wxALL, 0 );
+
+    wxBoxSizer* bSizerCourseProcedureCount;
+    bSizerCourseProcedureCount = new wxBoxSizer( wxHORIZONTAL );
+
+    m_staticTextCourseProcedureCount = new wxStaticText( m_panel2, wxID_ANY, wxT("Кол-во дней прохождения процедур"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextCourseProcedureCount->Wrap( -1 );
+    m_staticTextCourseProcedureCount->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
+
+    bSizerCourseProcedureCount->Add( m_staticTextCourseProcedureCount, 0, wxALL, 5 );
+
+    m_spinCtrlProcedureCount = new wxSpinCtrl( m_panel2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 365, 0 );
+    bSizerCourseProcedureCount->Add( m_spinCtrlProcedureCount, 0, wxALL, 5 );
+
+
+    bSizerPanel->Add( bSizerCourseProcedureCount, 0, wxEXPAND, 5 );
+
+    wxBoxSizer* bSizerButtons;
+    bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
+
+    m_buttonCreateCourseBack = new wxButton( m_panel2, wxID_ANY, wxT("Назад"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerButtons->Add( m_buttonCreateCourseBack, 0, wxALL, 5 );
+
+    m_buttonDoctorCreateCourseSave = new wxButton( m_panel2, wxID_ANY, wxT("Сохранить"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerButtons->Add( m_buttonDoctorCreateCourseSave, 0, wxALL, 5 );
+
+
+    bSizerPanel->Add( bSizerButtons, 0, wxALL, 0 );
+
+
+    m_panel2->SetSizer( bSizerPanel );
+    m_panel2->Layout();
+    bSizerMainPanel->Add( m_panel2, 1, wxEXPAND|wxALL, 0 );
+
+
+    this->SetSizer( bSizerMainPanel );
+    this->Layout();
+
+    this->Centre( wxBOTH );
+
+    // Connect Events
+    m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnText ), NULL, this );
+    m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextEnter ), NULL, this );
+    m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextMaxLen ), NULL, this );
+    m_textCtrlCourseTitle->Connect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextURL ), NULL, this );
+    m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnText ), NULL, this );
+    m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextEnter ), NULL, this );
+    m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextMaxLen ), NULL, this );
+    m_textCtrlCourseDescription->Connect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextURL ), NULL, this );
+    m_checkListExams->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBox ), NULL, this );
+    m_checkListExams->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxDClick ), NULL, this );
+    m_checkListExams->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxToggled ), NULL, this );
+    m_checkListProcedures->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBox ), NULL, this );
+    m_checkListProcedures->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxDClick ), NULL, this );
+    m_checkListProcedures->Connect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxToggled ), NULL, this );
+    m_spinCtrlProcedureCount->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( Doctor_CreateCourse_Frame::m_spinCtrlProcedureCountOnSpinCtrl ), NULL, this );
+    m_spinCtrlProcedureCount->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_spinCtrlProcedureCountOnSpinCtrlText ), NULL, this );
+    m_spinCtrlProcedureCount->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_spinCtrlProcedureCountOnTextEnter ), NULL, this );
+    m_buttonCreateCourseBack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonCreateCourseBackOnButtonClick ), NULL, this );
+    m_buttonDoctorCreateCourseSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick ), NULL, this );
 }
 
 Doctor_CreateCourse_Frame::~Doctor_CreateCourse_Frame()
 {
-	// Disconnect Events
-	m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnText ), NULL, this );
-	m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextEnter ), NULL, this );
-	m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextMaxLen ), NULL, this );
-	m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextURL ), NULL, this );
-	m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnText ), NULL, this );
-	m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextEnter ), NULL, this );
-	m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextMaxLen ), NULL, this );
-	m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextURL ), NULL, this );
-	m_checkListExams->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBox ), NULL, this );
-	m_checkListExams->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxDClick ), NULL, this );
-	m_checkListExams->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxToggled ), NULL, this );
-	m_checkListProcedures->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBox ), NULL, this );
-	m_checkListProcedures->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxDClick ), NULL, this );
-	m_checkListProcedures->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxToggled ), NULL, this );
-	m_buttonCreateCourseBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonCreateCourseBackOnButtonClick ), NULL, this );
-	m_buttonDoctorCreateCourseSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick ), NULL, this );
+    // Disconnect Events
+    m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnText ), NULL, this );
+    m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextEnter ), NULL, this );
+    m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextMaxLen ), NULL, this );
+    m_textCtrlCourseTitle->Disconnect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseTitleOnTextURL ), NULL, this );
+    m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnText ), NULL, this );
+    m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextEnter ), NULL, this );
+    m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_MAXLEN, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextMaxLen ), NULL, this );
+    m_textCtrlCourseDescription->Disconnect( wxEVT_COMMAND_TEXT_URL, wxTextUrlEventHandler( Doctor_CreateCourse_Frame::m_textCtrlCourseDescriptionOnTextURL ), NULL, this );
+    m_checkListExams->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBox ), NULL, this );
+    m_checkListExams->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxDClick ), NULL, this );
+    m_checkListExams->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListExamsOnCheckListBoxToggled ), NULL, this );
+    m_checkListProcedures->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBox ), NULL, this );
+    m_checkListProcedures->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxDClick ), NULL, this );
+    m_checkListProcedures->Disconnect( wxEVT_COMMAND_CHECKLISTBOX_TOGGLED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_checkListProceduresOnCheckListBoxToggled ), NULL, this );
+    m_spinCtrlProcedureCount->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( Doctor_CreateCourse_Frame::m_spinCtrlProcedureCountOnSpinCtrl ), NULL, this );
+    m_spinCtrlProcedureCount->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_spinCtrlProcedureCountOnSpinCtrlText ), NULL, this );
+    m_spinCtrlProcedureCount->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_spinCtrlProcedureCountOnTextEnter ), NULL, this );
+    m_buttonCreateCourseBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonCreateCourseBackOnButtonClick ), NULL, this );
+    m_buttonDoctorCreateCourseSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick ), NULL, this );
 
 }
 
