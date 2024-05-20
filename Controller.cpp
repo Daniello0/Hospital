@@ -153,7 +153,7 @@ void Doctor_Frame::m_buttonDoctorPatientsOnButtonClick(wxCommandEvent &event)
     doctor_patients_frame->Show();
     Doctor_Frame::Close();
 }
-void Doctor_Frame::m_buttonDoctorCoursesOnButtonClick(wxCommandEvent &event)
+void Doctor_Frame::m_buttonDoctorCursesOnButtonClick(wxCommandEvent &event)
 {
     auto* doctor_courses_frame = new Doctor_Courses_Frame(nullptr);
     doctor_courses_frame->SetPosition(Doctor_Frame::GetPosition());
@@ -327,6 +327,187 @@ void Doctor_CreateCourse_Frame::m_buttonDoctorCreateCourseSaveOnButtonClick(wxCo
         course_to_file.close();
         m_buttonCreateCourseBackOnButtonClick(event);
     }
+}
+//Delete Courses/Patients
+void Doctor_Frame::m_buttonDeleteCourseOnButtonClick(wxCommandEvent &event)
+{
+    auto* doctor_delete_course = new DeleteCourse_Frame(nullptr);
+    doctor_delete_course->SetPosition(Doctor_Frame::GetPosition());
+
+    ifstream courses_from_file("courses.txt");
+    vector<string> lines;
+    vector<string> titles;
+    string line;
+    while (getline(courses_from_file, line))
+    {
+        lines.push_back(line);
+        if (line == "Title")
+        {
+            titles.push_back(*(lines.end()-2));
+            lines.clear();
+        }
+    }
+    for (const string &title : titles)
+    {
+        doctor_delete_course->m_listBoxDeleteCourse->Append(title);
+    }
+    doctor_delete_course->Show();
+    Doctor_Frame::Close();
+}
+void Doctor_Frame::m_buttonDeletePatientOnButtonClick(wxCommandEvent &event)
+{
+    auto* doctor_delete_patient = new DeletePatient_Frame(nullptr);
+    doctor_delete_patient->SetPosition(Doctor_Frame::GetPosition());
+
+    ifstream patients_from_file("patients.txt");
+    vector<string> lines;
+    vector<string> names;
+    string line;
+    while (getline(patients_from_file, line))
+    {
+        lines.push_back(line);
+        if (line == "Name")
+        {
+            names.push_back(*(lines.end()-2));
+            lines.clear();
+        }
+    }
+    for (int i=0; i<names.size(); i++)
+    {
+        doctor_delete_patient->m_listBoxDeletePatient->Append(names[i]);
+    }
+
+    doctor_delete_patient->Show();
+    Doctor_Frame::Close();
+}
+void DeletePatient_Frame::m_buttonDeletePatientBackOnButtonClick(wxCommandEvent &event)
+{
+    auto* doctor_frame = new Doctor_Frame(nullptr);
+    doctor_frame->SetPosition(DeletePatient_Frame::GetPosition());
+    doctor_frame->Show();
+    DeletePatient_Frame::Close();
+}
+void DeleteCourse_Frame::m_buttonDeleteCourseBackOnButtonClick(wxCommandEvent &event)
+{
+    auto* doctor_frame = new Doctor_Frame(nullptr);
+    doctor_frame->SetPosition(DeleteCourse_Frame::GetPosition());
+    doctor_frame->Show();
+    DeleteCourse_Frame::Close();
+}
+void DeleteCourse_Frame::m_buttonDeleteCourseDeleteOnButtonClick(wxCommandEvent &event)
+{
+    string name;
+    for (int i=0; i<m_listBoxDeleteCourse->GetCount(); i++)
+    {
+        if (m_listBoxDeleteCourse->IsSelected(i))
+            name = m_listBoxDeleteCourse->GetString(i);
+    }
+    ifstream courses_file("courses.txt");
+    ofstream temp_file("temp.txt");
+
+    string line;
+    bool start_deleting = false;
+    bool last_line_procedures = false;
+
+    while (getline(courses_file, line))
+    {
+        if (line == name)
+        {
+            start_deleting = true;
+            last_line_procedures = false;
+            continue;
+        }
+        if (line == "Procedures")
+        {
+            if (start_deleting)
+            {
+                start_deleting = false;
+                last_line_procedures = true;
+                continue;
+            }
+        }
+
+        if (!start_deleting)
+        {
+            temp_file << line << std::endl;
+        }
+    }
+
+    courses_file.close();
+    temp_file.close();
+
+    if (std::remove("courses.txt") != 0)
+    {
+        wxLogError("Ошибка удаления исходного файла!");
+        return;
+    }
+
+    if (std::rename("temp.txt", "courses.txt") != 0)
+    {
+        wxLogError("Ошибка переименования временного файла!");
+    }
+    auto* doctor_frame = new Doctor_Frame(nullptr);
+    doctor_frame->SetPosition(DeleteCourse_Frame::GetPosition());
+    doctor_frame->m_buttonDeleteCourseOnButtonClick(event);
+    DeleteCourse_Frame::Close();
+}
+void DeletePatient_Frame::m_buttonDeletePatientDeleteOnButtonClick(wxCommandEvent &event)
+{
+    string name;
+    for (int i=0; i<m_listBoxDeletePatient->GetCount(); i++)
+    {
+        if (m_listBoxDeletePatient->IsSelected(i))
+            name = m_listBoxDeletePatient->GetString(i);
+    }
+    ifstream patients_file("patients.txt");
+    ofstream temp_file("temp.txt");
+
+    string line;
+    bool start_deleting = false;
+    bool last_line_procedures = false;
+
+    while (getline(patients_file, line))
+    {
+        if (line == name)
+        {
+            start_deleting = true;
+            last_line_procedures = false;
+            continue;
+        }
+        if (line == "Course")
+        {
+            if (start_deleting)
+            {
+                start_deleting = false;
+                last_line_procedures = true;
+                continue;
+            }
+        }
+
+        if (!start_deleting)
+        {
+            temp_file << line << std::endl;
+        }
+    }
+
+    patients_file.close();
+    temp_file.close();
+
+    if (std::remove("patients.txt") != 0)
+    {
+        wxLogError("Ошибка удаления исходного файла!");
+        return;
+    }
+
+    if (std::rename("temp.txt", "patients.txt") != 0)
+    {
+        wxLogError("Ошибка переименования временного файла!");
+    }
+
+    auto* doctor_frame = new Doctor_Frame(nullptr);
+    doctor_frame->SetPosition(DeletePatient_Frame::GetPosition());
+    doctor_frame->m_buttonDeletePatientOnButtonClick(event);
+    DeletePatient_Frame::Close();
 }
 //Other buttons
 void ChooseOffice_Frame::m_buttonChooseOfficeBackOnButtonClick(wxCommandEvent &event)

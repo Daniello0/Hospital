@@ -81,73 +81,92 @@ Main_Frame::~Main_Frame()
 
 Doctor_Frame::Doctor_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetBackgroundColour( wxColour( 49, 79, 120 ) );
+    this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+    this->SetBackgroundColour( wxColour( 49, 79, 120 ) );
 
-	wxBoxSizer* bSizerMainPanel;
-	bSizerMainPanel = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerMainPanel;
+    bSizerMainPanel = new wxBoxSizer( wxHORIZONTAL );
 
-	m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 900,600 ), wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizerPanel;
-	bSizerPanel = new wxBoxSizer( wxVERTICAL );
+    m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 900,600 ), wxTAB_TRAVERSAL );
+    wxBoxSizer* bSizerPanel;
+    bSizerPanel = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* bSizerPanelItems;
-	bSizerPanelItems = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* bSizerPanelItems;
+    bSizerPanelItems = new wxBoxSizer( wxHORIZONTAL );
 
-	m_buttonDoctorPatients = new wxButton( m_panel2, wxID_ANY, wxT("Пациенты"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerPanelItems->Add( m_buttonDoctorPatients, 0, wxALL, 5 );
+    wxBoxSizer* bSizerPanelItemsPatients;
+    bSizerPanelItemsPatients = new wxBoxSizer( wxVERTICAL );
 
-	m_buttonDoctorCurses = new wxButton( m_panel2, wxID_ANY, wxT("Курсы лечения"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerPanelItems->Add( m_buttonDoctorCurses, 0, wxALL, 5 );
+    m_buttonDoctorPatients = new wxButton( m_panel2, wxID_ANY, wxT("Пациенты"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerPanelItemsPatients->Add( m_buttonDoctorPatients, 0, wxALL, 5 );
 
-	m_buttonDoctorCreatePatient = new wxButton( m_panel2, wxID_ANY, wxT("Создать пациента"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerPanelItems->Add( m_buttonDoctorCreatePatient, 0, wxALL, 5 );
+    m_buttonDoctorCreatePatient = new wxButton( m_panel2, wxID_ANY, wxT("Создать пациента"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerPanelItemsPatients->Add( m_buttonDoctorCreatePatient, 0, wxALL, 5 );
 
-	m_buttonDoctorCreateCourse = new wxButton( m_panel2, wxID_ANY, wxT("Создать курс лечения"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerPanelItems->Add( m_buttonDoctorCreateCourse, 0, wxALL, 5 );
-
-
-	bSizerPanel->Add( bSizerPanelItems, 0, wxALL, 0 );
-
-	wxBoxSizer* bSizerBack;
-	bSizerBack = new wxBoxSizer( wxVERTICAL );
-
-	m_buttonDoctorBack = new wxButton( m_panel2, wxID_ANY, wxT("Назад"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizerBack->Add( m_buttonDoctorBack, 0, wxALL, 5 );
+    m_buttonDeletePatient = new wxButton( m_panel2, wxID_ANY, wxT("Удалить пациента"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerPanelItemsPatients->Add( m_buttonDeletePatient, 0, wxALL, 5 );
 
 
-	bSizerPanel->Add( bSizerBack, 0, wxALL, 0 );
+    bSizerPanelItems->Add( bSizerPanelItemsPatients, 0, wxALL, 5 );
+
+    wxBoxSizer* bSizerPanelItemsCourses;
+    bSizerPanelItemsCourses = new wxBoxSizer( wxVERTICAL );
+
+    m_buttonDoctorCurses = new wxButton( m_panel2, wxID_ANY, wxT("Курсы лечения"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerPanelItemsCourses->Add( m_buttonDoctorCurses, 0, wxALL, 5 );
+
+    m_buttonDoctorCreateCourse = new wxButton( m_panel2, wxID_ANY, wxT("Создать курс лечения"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerPanelItemsCourses->Add( m_buttonDoctorCreateCourse, 0, wxALL, 5 );
+
+    m_buttonDeleteCourse = new wxButton( m_panel2, wxID_ANY, wxT("Удалить курс лечения"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerPanelItemsCourses->Add( m_buttonDeleteCourse, 0, wxALL, 5 );
 
 
-	m_panel2->SetSizer( bSizerPanel );
-	m_panel2->Layout();
-	bSizerMainPanel->Add( m_panel2, 1, wxEXPAND|wxALL, 0 );
+    bSizerPanelItems->Add( bSizerPanelItemsCourses, 0, wxALL, 5 );
 
 
-	this->SetSizer( bSizerMainPanel );
-	this->Layout();
+    bSizerPanel->Add( bSizerPanelItems, 0, wxALL, 0 );
 
-	this->Centre( wxBOTH );
+    wxBoxSizer* bSizerBack;
+    bSizerBack = new wxBoxSizer( wxVERTICAL );
 
-	// Connect Events
-	m_buttonDoctorPatients->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorPatientsOnButtonClick ), NULL, this );
-    m_buttonDoctorCurses->Connect(wxEVT_COMMAND_BUTTON_CLICKED,
-                                  wxCommandEventHandler(Doctor_Frame::m_buttonDoctorCoursesOnButtonClick), NULL, this);
-	m_buttonDoctorCreatePatient->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreatePatientOnButtonClick ), NULL, this );
-	m_buttonDoctorCreateCourse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreateCourseOnButtonClick ), NULL, this );
-	m_buttonDoctorBack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorBackOnButtonClick ), NULL, this );
+    m_buttonDoctorBack = new wxButton( m_panel2, wxID_ANY, wxT("Назад"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerBack->Add( m_buttonDoctorBack, 0, wxALL, 5 );
+
+
+    bSizerPanel->Add( bSizerBack, 0, wxALL, 5 );
+
+
+    m_panel2->SetSizer( bSizerPanel );
+    m_panel2->Layout();
+    bSizerMainPanel->Add( m_panel2, 1, wxEXPAND|wxALL, 0 );
+
+
+    this->SetSizer( bSizerMainPanel );
+    this->Layout();
+
+    this->Centre( wxBOTH );
+
+    // Connect Events
+    m_buttonDoctorPatients->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorPatientsOnButtonClick ), NULL, this );
+    m_buttonDoctorCreatePatient->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreatePatientOnButtonClick ), NULL, this );
+    m_buttonDeletePatient->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDeletePatientOnButtonClick ), NULL, this );
+    m_buttonDoctorCurses->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCursesOnButtonClick ), NULL, this );
+    m_buttonDoctorCreateCourse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreateCourseOnButtonClick ), NULL, this );
+    m_buttonDeleteCourse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDeleteCourseOnButtonClick ), NULL, this );
+    m_buttonDoctorBack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorBackOnButtonClick ), NULL, this );
 }
 
 Doctor_Frame::~Doctor_Frame()
 {
-	// Disconnect Events
-	m_buttonDoctorPatients->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorPatientsOnButtonClick ), NULL, this );
-    m_buttonDoctorCurses->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED,
-                                     wxCommandEventHandler(Doctor_Frame::m_buttonDoctorCoursesOnButtonClick), NULL,
-                                     this);
-	m_buttonDoctorCreatePatient->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreatePatientOnButtonClick ), NULL, this );
-	m_buttonDoctorCreateCourse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreateCourseOnButtonClick ), NULL, this );
-	m_buttonDoctorBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorBackOnButtonClick ), NULL, this );
+    // Disconnect Events
+    m_buttonDoctorPatients->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorPatientsOnButtonClick ), NULL, this );
+    m_buttonDoctorCreatePatient->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreatePatientOnButtonClick ), NULL, this );
+    m_buttonDeletePatient->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDeletePatientOnButtonClick ), NULL, this );
+    m_buttonDoctorCurses->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCursesOnButtonClick ), NULL, this );
+    m_buttonDoctorCreateCourse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorCreateCourseOnButtonClick ), NULL, this );
+    m_buttonDeleteCourse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDeleteCourseOnButtonClick ), NULL, this );
+    m_buttonDoctorBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Doctor_Frame::m_buttonDoctorBackOnButtonClick ), NULL, this );
 
 }
 
@@ -726,7 +745,7 @@ Doctor_CreateCourse_Frame::Doctor_CreateCourse_Frame( wxWindow* parent, wxWindow
 	m_staticTextProcedures->Wrap( -1 );
 	bSizerProcedures->Add( m_staticTextProcedures, 0, wxALL, 5 );
 
-	wxString m_checkListProceduresChoices[] = { wxT("Procedure 1"), wxT("Procedure 2"), wxT("Procedure 3") };
+	wxString m_checkListProceduresChoices[] = { wxT("Электрофорез"), wxT("Массаж"), wxT("Общий анализ крови") };
 	int m_checkListProceduresNChoices = sizeof( m_checkListProceduresChoices ) / sizeof( wxString );
 	m_checkListProcedures = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListProceduresNChoices, m_checkListProceduresChoices, wxLB_SORT );
 	bSizerProcedures->Add( m_checkListProcedures, 0, wxALL, 5 );
@@ -1212,4 +1231,140 @@ Worker_Patients_Frame::~Worker_Patients_Frame()
 	m_gridPatients->Disconnect( wxEVT_GRID_ROW_SIZE, wxGridSizeEventHandler( Worker_Patients_Frame::m_gridPatientsOnGridRowSize ), NULL, this );
 	m_gridPatients->Disconnect( wxEVT_GRID_SELECT_CELL, wxGridEventHandler( Worker_Patients_Frame::m_gridPatientsOnGridSelectCell ), NULL, this );
 	m_buttonWorkerPatientsBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Worker_Patients_Frame::m_buttonWorkerPatientsBackOnButtonClick ), NULL, this );
+}
+
+DeleteCourse_Frame::DeleteCourse_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+    this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+    this->SetBackgroundColour( wxColour( 49, 79, 120 ) );
+
+    this->SetTitle("Удалить курс лечения");
+
+    wxBoxSizer* bSizerMainPanel;
+    bSizerMainPanel = new wxBoxSizer( wxHORIZONTAL );
+
+    m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 900,600 ), wxTAB_TRAVERSAL );
+    wxBoxSizer* bSizerPanel;
+    bSizerPanel = new wxBoxSizer( wxVERTICAL );
+
+    wxBoxSizer* bSizerDeleteCourse;
+    bSizerDeleteCourse = new wxBoxSizer( wxHORIZONTAL );
+
+    m_staticTextDeleteCourse = new wxStaticText( m_panel2, wxID_ANY, wxT("Удалить курс лечения"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextDeleteCourse->Wrap( -1 );
+    m_staticTextDeleteCourse->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
+
+    bSizerDeleteCourse->Add( m_staticTextDeleteCourse, 0, wxALL, 5 );
+
+    m_listBoxDeleteCourse = new wxListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 150,90 ), 0, NULL, 0 );
+    bSizerDeleteCourse->Add( m_listBoxDeleteCourse, 0, wxALL, 5 );
+
+    bSizerPanel->Add( bSizerDeleteCourse, 0, wxALL, 0 );
+
+    wxBoxSizer* bSizerButtons;
+    bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
+
+    m_buttonDeleteCourseBack = new wxButton( m_panel2, wxID_ANY, wxT("Назад"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerButtons->Add( m_buttonDeleteCourseBack, 0, wxALL, 5 );
+
+    m_buttonDeleteCourseDelete = new wxButton( m_panel2, wxID_ANY, wxT("Удалить"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerButtons->Add( m_buttonDeleteCourseDelete, 0, wxALL, 5 );
+
+
+    bSizerPanel->Add( bSizerButtons, 0, wxALL, 0 );
+
+
+    m_panel2->SetSizer( bSizerPanel );
+    m_panel2->Layout();
+    bSizerMainPanel->Add( m_panel2, 1, wxEXPAND|wxALL, 0 );
+
+
+    this->SetSizer( bSizerMainPanel );
+    this->Layout();
+
+    this->Centre( wxBOTH );
+
+    // Connect Events
+    m_listBoxDeleteCourse->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( DeleteCourse_Frame::m_listBoxDeleteCourseOnListBox ), NULL, this );
+    m_listBoxDeleteCourse->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( DeleteCourse_Frame::m_listBoxDeleteCourseOnListBoxDClick ), NULL, this );
+    m_buttonDeleteCourseBack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeleteCourse_Frame::m_buttonDeleteCourseBackOnButtonClick ), NULL, this );
+    m_buttonDeleteCourseDelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeleteCourse_Frame::m_buttonDeleteCourseDeleteOnButtonClick ), NULL, this );
+}
+
+DeleteCourse_Frame::~DeleteCourse_Frame()
+{
+    // Disconnect Events
+    m_listBoxDeleteCourse->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( DeleteCourse_Frame::m_listBoxDeleteCourseOnListBox ), NULL, this );
+    m_listBoxDeleteCourse->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( DeleteCourse_Frame::m_listBoxDeleteCourseOnListBoxDClick ), NULL, this );
+    m_buttonDeleteCourseBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeleteCourse_Frame::m_buttonDeleteCourseBackOnButtonClick ), NULL, this );
+    m_buttonDeleteCourseDelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeleteCourse_Frame::m_buttonDeleteCourseDeleteOnButtonClick ), NULL, this );
+
+}
+
+DeletePatient_Frame::DeletePatient_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+    this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+    this->SetBackgroundColour( wxColour( 49, 79, 120 ) );
+
+    this->SetTitle("Удалить пациента");
+
+    wxBoxSizer* bSizerMainPanel;
+    bSizerMainPanel = new wxBoxSizer( wxHORIZONTAL );
+
+    m_panel2 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 900,600 ), wxTAB_TRAVERSAL );
+    wxBoxSizer* bSizerPanel;
+    bSizerPanel = new wxBoxSizer( wxVERTICAL );
+
+    wxBoxSizer* bSizerDeletePatient;
+    bSizerDeletePatient = new wxBoxSizer( wxHORIZONTAL );
+
+    m_staticTextDeletePatient = new wxStaticText( m_panel2, wxID_ANY, wxT("Удалить пациента"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_staticTextDeletePatient->Wrap( -1 );
+    m_staticTextDeletePatient->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNTEXT ) );
+
+    bSizerDeletePatient->Add( m_staticTextDeletePatient, 0, wxALL, 5 );
+
+    m_listBoxDeletePatient = new wxListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 150,90 ), 0, NULL, 0 );
+    bSizerDeletePatient->Add( m_listBoxDeletePatient, 0, wxALL, 5 );
+
+    bSizerPanel->Add( bSizerDeletePatient, 0, wxALL, 0 );
+
+    wxBoxSizer* bSizerButtons;
+    bSizerButtons = new wxBoxSizer( wxHORIZONTAL );
+
+    m_buttonDeletePatientBack = new wxButton( m_panel2, wxID_ANY, wxT("Назад"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerButtons->Add( m_buttonDeletePatientBack, 0, wxALL, 5 );
+
+    m_buttonDeletePatientDelete = new wxButton( m_panel2, wxID_ANY, wxT("Удалить"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizerButtons->Add( m_buttonDeletePatientDelete, 0, wxALL, 5 );
+
+
+    bSizerPanel->Add( bSizerButtons, 0, wxALL, 0 );
+
+
+    m_panel2->SetSizer( bSizerPanel );
+    m_panel2->Layout();
+    bSizerMainPanel->Add( m_panel2, 1, wxEXPAND|wxALL, 0 );
+
+
+    this->SetSizer( bSizerMainPanel );
+    this->Layout();
+
+    this->Centre( wxBOTH );
+
+    // Connect Events
+    m_listBoxDeletePatient->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( DeletePatient_Frame::m_listBoxDeletePatientOnListBox ), NULL, this );
+    m_listBoxDeletePatient->Connect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( DeletePatient_Frame::m_listBoxDeletePatientOnListBoxDClick ), NULL, this );
+    m_buttonDeletePatientBack->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeletePatient_Frame::m_buttonDeletePatientBackOnButtonClick ), NULL, this );
+    m_buttonDeletePatientDelete->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeletePatient_Frame::m_buttonDeletePatientDeleteOnButtonClick ), NULL, this );
+}
+
+DeletePatient_Frame::~DeletePatient_Frame()
+{
+    // Disconnect Events
+    m_listBoxDeletePatient->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( DeletePatient_Frame::m_listBoxDeletePatientOnListBox ), NULL, this );
+    m_listBoxDeletePatient->Disconnect( wxEVT_COMMAND_LISTBOX_DOUBLECLICKED, wxCommandEventHandler( DeletePatient_Frame::m_listBoxDeletePatientOnListBoxDClick ), NULL, this );
+    m_buttonDeletePatientBack->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeletePatient_Frame::m_buttonDeletePatientBackOnButtonClick ), NULL, this );
+    m_buttonDeletePatientDelete->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeletePatient_Frame::m_buttonDeletePatientDeleteOnButtonClick ), NULL, this );
+
 }

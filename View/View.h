@@ -66,32 +66,35 @@ class Main_Frame : public wxFrame
 ///////////////////////////////////////////////////////////////////////////////
 class Doctor_Frame : public wxFrame
 {
-	private:
+private:
 
-	protected:
-		wxPanel* m_panel2;
-		wxButton* m_buttonDoctorPatients;
-		wxButton* m_buttonDoctorCurses;
-		wxButton* m_buttonDoctorCreatePatient;
-		wxButton* m_buttonDoctorCreateCourse;
-		wxButton* m_buttonDoctorBack;
+public:
+    wxPanel* m_panel2;
+    wxButton* m_buttonDoctorPatients;
+    wxButton* m_buttonDoctorCreatePatient;
+    wxButton* m_buttonDeletePatient;
+    wxButton* m_buttonDoctorCurses;
+    wxButton* m_buttonDoctorCreateCourse;
+    wxButton* m_buttonDeleteCourse;
+    wxButton* m_buttonDoctorBack;
 
-		// Virtual event handlers, override them in your derived class
-		virtual void m_buttonDoctorPatientsOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorCoursesOnButtonClick(wxCommandEvent& event );
-		virtual void m_buttonDoctorCreatePatientOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorCreateCourseOnButtonClick( wxCommandEvent& event );
-		virtual void m_buttonDoctorBackOnButtonClick( wxCommandEvent& event );
+    // Virtual event handlers, override them in your derived class
+    virtual void m_buttonDoctorPatientsOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDoctorCreatePatientOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDeletePatientOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDoctorCursesOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDoctorCreateCourseOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDeleteCourseOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDoctorBackOnButtonClick( wxCommandEvent& event );
 
 
-	public:
+public:
 
-		Doctor_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Доктор"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+    Doctor_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Доктор"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-		~Doctor_Frame();
+    ~Doctor_Frame();
 
 };
-
 ///////////////////////////////////////////////////////////////////////////////
 /// Class Doctor_Patients_Frame
 ///////////////////////////////////////////////////////////////////////////////
@@ -491,3 +494,54 @@ class Worker_Patients_Frame : public wxFrame
 
 };
 
+class DeleteCourse_Frame : public wxFrame
+{
+private:
+
+public:
+    wxPanel* m_panel2;
+    wxStaticText* m_staticTextDeleteCourse;
+    wxListBox* m_listBoxDeleteCourse;
+    wxButton* m_buttonDeleteCourseBack;
+    wxButton* m_buttonDeleteCourseDelete;
+
+    // Virtual event handlers, override them in your derived class
+    virtual void m_listBoxDeleteCourseOnListBox( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_listBoxDeleteCourseOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_buttonDeleteCourseBackOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDeleteCourseDeleteOnButtonClick( wxCommandEvent& event );
+
+
+public:
+
+    DeleteCourse_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Выбор кабинета"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+
+    ~DeleteCourse_Frame();
+
+};
+
+class DeletePatient_Frame : public wxFrame
+{
+private:
+
+public:
+    wxPanel* m_panel2;
+    wxStaticText* m_staticTextDeletePatient;
+    wxListBox* m_listBoxDeletePatient;
+    wxButton* m_buttonDeletePatientBack;
+    wxButton* m_buttonDeletePatientDelete;
+
+    // Virtual event handlers, override them in your derived class
+    virtual void m_listBoxDeletePatientOnListBox( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_listBoxDeletePatientOnListBoxDClick( wxCommandEvent& event ) { event.Skip(); }
+    virtual void m_buttonDeletePatientBackOnButtonClick( wxCommandEvent& event );
+    virtual void m_buttonDeletePatientDeleteOnButtonClick( wxCommandEvent& event );
+
+
+public:
+
+    DeletePatient_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Выбор кабинета"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+
+    ~DeletePatient_Frame();
+
+};
