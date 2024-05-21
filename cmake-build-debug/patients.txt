@@ -1,12 +1,24 @@
-Bon
+Mark
 Name
-Jovi
+Tven
 Surname
-12.06.1986
+14.06.2001
 DOB
-Anemium
+-
 Diagnosis
-Головная боль
+Головная боль, тошнота
 Complaints
 FullTest
+Course
+Боб
+Name
+Мой
+Surname
+07.05.2000
+DOB
+-
+Diagnosis
+-
+Complaints
+Full
 Course

@@ -66,6 +66,108 @@ void Main_Frame::m_buttonNurseOnButtonClick(wxCommandEvent &event)
 {
     auto* nurse_patients_frame = new Nurse_Patients_Frame(nullptr);
     nurse_patients_frame->SetPosition(Main_Frame::GetPosition());
+
+    //Prepare
+    ifstream from_ECG("ECG.txt");
+    ifstream from_MRI("MRI.txt");
+    ifstream from_FGDS("FG(D)S.txt");
+    ifstream from_CT("CT.txt");
+    ifstream from_Surgery("Surgery.txt");
+
+    vector<string> lines;
+    vector<tuple<string, int, string, wxDateTime>> patients;
+    string line;
+
+    //Getting patients from files
+    while (getline(from_ECG, line))
+    {
+        lines.push_back(line);
+        if (lines.size() == 2)
+        {
+            wxDateTime dateTime;
+            dateTime.ParseFormat(lines[1], "%d.%m.%Y %H:%M");
+            patients.push_back(make_tuple(lines[0], ECG_office.office_number, "ЭКГ", dateTime));
+            lines.clear();
+        }
+    }
+    while (getline(from_MRI, line))
+    {
+        lines.push_back(line);
+        if (lines.size() == 2)
+        {
+            wxDateTime dateTime;
+            dateTime.ParseFormat(lines[1], "%d.%m.%Y %H:%M");
+            patients.push_back(make_tuple(lines[0], MRI_office.office_number, "МРТ", dateTime));
+            lines.clear();
+        }
+    }
+    while (getline(from_FGDS, line))
+    {
+        lines.push_back(line);
+        if (lines.size() == 2)
+        {
+            wxDateTime dateTime;
+            dateTime.ParseFormat(lines[1], "%d.%m.%Y %H:%M");
+            patients.push_back(make_tuple(lines[0], FGDS_office.office_number, "ФГ(Д)С", dateTime));
+            lines.clear();
+        }
+    }
+    while (getline(from_CT, line))
+    {
+        lines.push_back(line);
+        if (lines.size() == 2)
+        {
+            wxDateTime dateTime;
+            dateTime.ParseFormat(lines[1], "%d.%m.%Y %H:%M");
+            patients.push_back(make_tuple(lines[0], CT_office.office_number, "КТ", dateTime));
+            lines.clear();
+        }
+    }
+    while (getline(from_Surgery, line))
+    {
+        lines.push_back(line);
+        if (lines.size() == 2)
+        {
+            wxDateTime dateTime;
+            dateTime.ParseFormat(lines[1], "%d.%m.%Y %H:%M");
+            patients.push_back(make_tuple(lines[0], Surgery.office_number, "Операционная", dateTime));
+            lines.clear();
+        }
+    }
+
+    //Sorting
+    std::sort(patients.begin(), patients.end(), [](const auto& a, const auto& b) {
+        return std::get<3>(a) < std::get<3>(b);
+    });
+
+    //Adding other info
+    ifstream data_from_file;
+    line.clear();
+    Patient patient;
+
+    while (getline(data_from_file, line))
+    {
+        if (line == "Name")
+        {
+            patient.first_name = lines[0];
+            lines.clear();
+        }
+        if (line == "Surname")
+        {
+            patient.last_name = lines[0];
+            lines.clear();
+        }
+        lines.push_back(line);
+    }
+
+    for (int i=0; i<patients.size(); i++)
+    {
+        nurse_patients_frame->m_gridPatients->SetCellValue(i, 0, get<0>(patients[i]));
+        nurse_patients_frame->m_gridPatients->SetCellValue(i, 1, to_string(get<1>(patients[i])));
+        nurse_patients_frame->m_gridPatients->SetCellValue(i, 2, get<2>(patients[i]));
+        nurse_patients_frame->m_gridPatients->SetCellValue(i, 3, get<3>(patients[i]).Format("%d.%m.%Y %H:%M"));
+    }
+
     nurse_patients_frame->Show();
     Main_Frame::Close();
 }
@@ -476,7 +578,7 @@ void Doctor_CreatePatient_Frame::m_buttonDoctorCreatePatientSaveOnButtonClick(wx
                 to_fgds << patient_name << endl;
                 to_fgds << last_time.Format("%d.%m.%Y %H:%M") << endl;
             }
-            if (exam == "Хирургическая")
+            if (exam == "Операционная")
             {
                 //Prepare
                 wxDateTime last_time = wxDateTime::Today();
@@ -767,6 +869,24 @@ void ChooseOffice_Frame::m_buttonChooseOfficeNextOnButtonClick(wxCommandEvent &e
         selected_office = MRI_office;
         auto* worker_patients_frame = new Worker_Patients_Frame(nullptr);
         worker_patients_frame->SetPosition(ChooseOffice_Frame::GetPosition());
+
+        worker_patients_frame->SetTitle("МРТ");
+        ifstream from_mri("MRI.txt");
+        string line;
+        vector<string> lines;
+        int row = 0;
+        while (getline(from_mri, line))
+        {
+            lines.push_back(line);
+            if (lines.size() == 2)
+            {
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 0, lines[0]);
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 1, lines[1]);
+                lines.clear();
+                row++;
+            }
+        }
+
         worker_patients_frame->Show();
         ChooseOffice_Frame::Close();
     }
@@ -775,6 +895,24 @@ void ChooseOffice_Frame::m_buttonChooseOfficeNextOnButtonClick(wxCommandEvent &e
         selected_office = ECG_office;
         auto* worker_patients_frame = new Worker_Patients_Frame(nullptr);
         worker_patients_frame->SetPosition(ChooseOffice_Frame::GetPosition());
+
+        worker_patients_frame->SetTitle("ЭКГ");
+        ifstream from_ecg("ECG.txt");
+        string line;
+        vector<string> lines;
+        int row = 0;
+        while (getline(from_ecg, line))
+        {
+            lines.push_back(line);
+            if (lines.size() == 2)
+            {
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 0, lines[0]);
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 1, lines[1]);
+                lines.clear();
+                row++;
+            }
+        }
+
         worker_patients_frame->Show();
         ChooseOffice_Frame::Close();
     }
@@ -783,6 +921,24 @@ void ChooseOffice_Frame::m_buttonChooseOfficeNextOnButtonClick(wxCommandEvent &e
         selected_office = FGDS_office;
         auto* worker_patients_frame = new Worker_Patients_Frame(nullptr);
         worker_patients_frame->SetPosition(ChooseOffice_Frame::GetPosition());
+
+        worker_patients_frame->SetTitle("ФГ(Д)С");
+        ifstream from_fgds("FG(D)S.txt");
+        string line;
+        vector<string> lines;
+        int row = 0;
+        while (getline(from_fgds, line))
+        {
+            lines.push_back(line);
+            if (lines.size() == 2)
+            {
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 0, lines[0]);
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 1, lines[1]);
+                lines.clear();
+                row++;
+            }
+        }
+
         worker_patients_frame->Show();
         ChooseOffice_Frame::Close();
     }
@@ -791,6 +947,50 @@ void ChooseOffice_Frame::m_buttonChooseOfficeNextOnButtonClick(wxCommandEvent &e
         selected_office = CT_office;
         auto* worker_patients_frame = new Worker_Patients_Frame(nullptr);
         worker_patients_frame->SetPosition(ChooseOffice_Frame::GetPosition());
+
+        worker_patients_frame->SetTitle("КТ");
+        ifstream from_ct("CT.txt");
+        string line;
+        vector<string> lines;
+        int row = 0;
+        while (getline(from_ct, line))
+        {
+            lines.push_back(line);
+            if (lines.size() == 2)
+            {
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 0, lines[0]);
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 1, lines[1]);
+                lines.clear();
+                row++;
+            }
+        }
+
+        worker_patients_frame->Show();
+        ChooseOffice_Frame::Close();
+    }
+    else if (m_listBoxChooseOffice->IsSelected(4))
+    {
+        selected_office = Surgery;
+        auto* worker_patients_frame = new Worker_Patients_Frame(nullptr);
+        worker_patients_frame->SetPosition(ChooseOffice_Frame::GetPosition());
+
+        worker_patients_frame->SetTitle("Операционная");
+        ifstream from_surgery("Surgery.txt");
+        string line;
+        vector<string> lines;
+        int row = 0;
+        while (getline(from_surgery, line))
+        {
+            lines.push_back(line);
+            if (lines.size() == 2)
+            {
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 0, lines[0]);
+                worker_patients_frame->m_gridPatients->SetCellValue(row, 1, lines[1]);
+                lines.clear();
+                row++;
+            }
+        }
+
         worker_patients_frame->Show();
         ChooseOffice_Frame::Close();
     }

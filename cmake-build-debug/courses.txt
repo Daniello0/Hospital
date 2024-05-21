@@ -1,16 +1,18 @@
-FullTest
+Full
 Title
-Test's all files
+Full tests
 Description
 КТ
 МРТ
+Операционная
 ФГ(Д)С
-Хирургическая
 ЭКГ
 
 Exams
+Ароматерапия
+Иглоукалывание
+ЛФК
 Массаж
-Общий анализ крови
 Электрофорез
 
 Procedures

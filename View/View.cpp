@@ -729,7 +729,7 @@ Doctor_CreateCourse_Frame::Doctor_CreateCourse_Frame( wxWindow* parent, wxWindow
     m_staticTextExams->Wrap( -1 );
     bSizerExams->Add( m_staticTextExams, 0, wxALL, 5 );
 
-    wxString m_checkListExamsChoices[] = { wxT("ЭКГ"), wxT("МРТ"), wxT("КТ"), wxT("ФГ(Д)С"), wxT("Хирургическая") };
+    wxString m_checkListExamsChoices[] = { wxT("ЭКГ"), wxT("МРТ"), wxT("КТ"), wxT("ФГ(Д)С"), wxT("Операционная") };
     int m_checkListExamsNChoices = sizeof( m_checkListExamsChoices ) / sizeof( wxString );
     m_checkListExams = new wxCheckListBox( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 750,150 ), m_checkListExamsNChoices, m_checkListExamsChoices, wxLB_SORT );
     bSizerExams->Add( m_checkListExams, 0, wxALL, 5 );
@@ -933,7 +933,6 @@ ChooseOffice_Frame::ChooseOffice_Frame( wxWindow* parent, wxWindowID id, const w
 	m_listBoxChooseOffice->Append( wxT("ФГ(Д)С") );
 	m_listBoxChooseOffice->Append( wxT("КТ") );
     m_listBoxChooseOffice->Append( wxT("Операционная") );
-	m_listBoxChooseOffice->Append( wxEmptyString );
 	bSizerChooseOffice->Add( m_listBoxChooseOffice, 0, wxALL, 5 );
 
 
@@ -997,7 +996,13 @@ Nurse_Patients_Frame::Nurse_Patients_Frame( wxWindow* parent, wxWindowID id, con
 	m_gridPatients = new wxGrid( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 900,500 ), 0 );
 
 	// Grid
-	m_gridPatients->CreateGrid( 5, 5 );
+	m_gridPatients->CreateGrid( 100, 4 );
+    m_gridPatients->SetDefaultColSize(185);
+    m_gridPatients->SetDefaultRowSize(50);
+    m_gridPatients->SetColLabelValue(0, "Имя");
+    m_gridPatients->SetColLabelValue(1, "Кабинет");
+    m_gridPatients->SetColLabelValue(2, "Название");
+    m_gridPatients->SetColLabelValue(3, "Дата");
 	m_gridPatients->EnableEditing( false );
 	m_gridPatients->EnableGridLines( true );
 	m_gridPatients->EnableDragGridSize( true );
@@ -1134,7 +1139,11 @@ Worker_Patients_Frame::Worker_Patients_Frame( wxWindow* parent, wxWindowID id, c
 	m_gridPatients = new wxGrid( m_panel2, wxID_ANY, wxDefaultPosition, wxSize( 900,500 ), 0 );
 
 	// Grid
-	m_gridPatients->CreateGrid( 5, 5 );
+	m_gridPatients->CreateGrid( 100, 2 );
+    m_gridPatients->SetDefaultColSize(365);
+    m_gridPatients->SetDefaultRowSize(50);
+    m_gridPatients->SetColLabelValue(0, "Имя");
+    m_gridPatients->SetColLabelValue(1, "Дата");
 	m_gridPatients->EnableEditing( false );
 	m_gridPatients->EnableGridLines( true );
 	m_gridPatients->EnableDragGridSize( true );

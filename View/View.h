@@ -393,7 +393,7 @@ class Nurse_Patients_Frame : public wxFrame
 {
 	private:
 
-	protected:
+	public:
 		wxPanel* m_panel2;
 		wxGrid* m_gridPatients;
 		wxButton* m_buttonNursePatientsBack;
@@ -449,7 +449,7 @@ class Worker_Patients_Frame : public wxFrame
 {
 	private:
 
-	protected:
+	public:
 		wxPanel* m_panel2;
 		wxGrid* m_gridPatients;
 		wxButton* m_buttonWorkerPatientsBack;
